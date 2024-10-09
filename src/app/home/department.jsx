@@ -80,7 +80,7 @@ const Department = () => {
           <div className="left">
             <div className="search-box">
               <i className="fa-solid fa-magnifying-glass"></i>
-              <input type="text" placeholder="tên tổ, mã máy,..." />
+              <input type="text" placeholder="Tên tổ máy, mã máy,..." />
             </div>
             <button>Tìm kiếm</button>
           </div>
