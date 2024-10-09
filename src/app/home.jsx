@@ -2,12 +2,26 @@ import React, { useState, useEffect, useRef } from "react";
 import Cookies from "js-cookie";
 import "@fortawesome/fontawesome-free/css/all.css";
 import api from "../class/api";
-import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { NavLink, Outlet, useNavigate, useLocation } from "react-router-dom";
+import LeftContainer from "./home/left-container";
 
 function App() {
   const [isElectron, setIsElectron] = useState(false);
+  const [token, setToken] = useState(false);
   const searchInputRef = useRef(null);
   const navigate = useNavigate();
+  const location = useLocation();
+  // Define route titles
+  const routeTitles = {
+    "/home/dashboard": "Tổng quan",
+    "/home/department": "Tổ máy",
+    "/home/schedule": "Lịch",
+    "/home/planning": "Kế hoạch",
+    "/home/settings": "Cài đặt",
+    // Add more routes and their titles here
+  };
+  // Get the title based on current path
+  const currentTitle = routeTitles[location.pathname] || "Trang không tìm thấy";
   // Tạo một hàm để xử lý sự kiện bàn phím
   const checkToken = async () => {
     const token = Cookies.get("token");
@@ -17,7 +31,7 @@ function App() {
           headers: { Authorization: `Bearer ${token}` },
         });
         const userData = response.data;
-        console.log(userData);
+        setToken(userData);
       } catch (e) {
         console.log(e);
         console.error("Token không hợp lệ hoặc không có dữ liệu người dùng");
@@ -61,41 +75,7 @@ function App() {
   );
   return (
     <div className="home-page">
-      <div className="left-container">
-        <div className="menu-fixed">
-          <div className="app">
-            <div className="logo">LOGO</div>
-          </div>
-          <div className="tools">
-            <MenuItem
-              to="/home/dashboard"
-              iconClass="fa-solid fa-chart-line"
-              label="Tổng quan"
-            />
-            <MenuItem
-              to="/home/schedule"
-              iconClass="fa-solid fa-calendar-days"
-              label="Lịch"
-            />
-            <MenuItem
-              to="/home/planning"
-              iconClass="fa-solid fa-layer-group"
-              label="Kế hoạch"
-            />
-            <MenuItem
-              to="/home/department"
-              iconClass="fa-solid fa-toilets-portable"
-              label="Tổ máy"
-            />
-            <div className="split" />
-            <MenuItem
-              to="/home/settings"
-              iconClass="fa-solid fa-gear"
-              label="Cài đặt"
-            />
-          </div>
-        </div>
-      </div>
+      <LeftContainer />
       <div className="right-container">
         <div className="top-container">
           <div className="routes">
@@ -105,7 +85,7 @@ function App() {
             <div className="split">
               <i className="fa-solid fa-angle-right"></i>
             </div>
-            <div className="items">Tổng quan</div>
+            <div className="items">{currentTitle}</div>
           </div>
           <div className="right-tools">
             <div className="tools-list">
@@ -162,7 +142,7 @@ function App() {
           </div>
         </div>
         <div className="main-container">
-          <Outlet />
+          <Outlet context={token} />
         </div>
       </div>
     </div>
