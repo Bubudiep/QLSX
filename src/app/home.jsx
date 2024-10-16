@@ -15,6 +15,7 @@ function App() {
   const routeTitles = {
     "/home/dashboard": "Tổng quan",
     "/home/department": "Tổ máy",
+    "/home/employeer": "Nhân viên",
     "/home/schedule": "Lịch",
     "/home/planning": "Kế hoạch",
     "/home/settings": "Cài đặt",

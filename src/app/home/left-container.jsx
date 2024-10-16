@@ -41,6 +41,11 @@ const LeftContainer = () => {
             iconClass="fa-solid fa-toilets-portable"
             label="Tổ máy"
           />
+          <MenuItem
+            to="/home/employeer"
+            iconClass="fa-solid fa-users-gear"
+            label="Nhân viên"
+          />
           <div className="split" />
           <MenuItem
             to="/home/settings"
